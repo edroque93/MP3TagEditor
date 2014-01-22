@@ -17,7 +17,7 @@ public class AboutCommand extends Command {
         int width = 350;
         String message = "<html><body width='" + width
                 + "'><h1>About</h1>"
-                +"<p align=\"justify\">This application serves as an mp3 tag "
+                +"<p align=\"justify\">This application serves as a mp3 tag "
                 + "editor. The mp3 file holds an ID3 container which stores "
                 + "metadata about the mp3 song, including: the title, artist, "
                 + "album, etc.<br><br>Java powered, designed by ThePirateCat."

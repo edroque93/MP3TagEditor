@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import mp3tageditor.Control.AboutCommand;
 import mp3tageditor.Control.ActionListenerFactory;
-import mp3tageditor.Control.Command;
 import mp3tageditor.Control.CommandDictionary;
+import mp3tageditor.Control.OpenCommand;
 import mp3tageditor.UI.Swing.MainFrame;
 
 /**
@@ -33,19 +33,17 @@ public class MP3TagEditor {
                 };
             }
         });
-        
+
         createCommands();
     }
 
     private void createCommands() {
         commandDictionary = new CommandDictionary();
         commandDictionary.put("About", new AboutCommand(frame));
-        commandDictionary.put("Open", new Command() {
-            @Override
-            public void execute() {
-                System.out.println("Open pressed");
-            }
-        });
+        commandDictionary.put("Open", new OpenCommand(
+                frame,
+                frame.getOpenFilePanel(),
+                frame.getTagEditorPanel()));
     }
 
 }

@@ -20,6 +20,30 @@ public class TagEditorPanel extends JPanel {
         createComponents();
     }
 
+    public JTextField getTitle() {
+        return title;
+    }
+
+    public JTextField getArtist() {
+        return artist;
+    }
+
+    public JTextField getAlbum() {
+        return album;
+    }
+
+    public JTextField getYear() {
+        return year;
+    }
+
+    public JTextField getComment() {
+        return comment;
+    }
+
+    public JTextField getGenre() {
+        return genre;
+    }
+
     private void createComponents() {
         title = createField("Title");
         artist = createField("Artist");

@@ -12,7 +12,7 @@ import mp3tageditor.Control.ActionListenerFactory;
 public class MainFrame extends JFrame {
 
     private ActionListenerFactory factory;
-    private OpenFilePanel opeFilePanel;
+    private OpenFilePanel openFilePanel;
     private TagEditorPanel tagEditorPanel;
     private MiscellanyPanel miscellanyPanel;
 
@@ -29,8 +29,16 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
 
-    public OpenFilePanel getOpeFilePanel() {
-        return opeFilePanel;
+    public OpenFilePanel getOpenFilePanel() {
+        return openFilePanel;
+    }
+
+    public TagEditorPanel getTagEditorPanel() {
+        return tagEditorPanel;
+    }
+
+    public MiscellanyPanel getMiscellanyPanel() {
+        return miscellanyPanel;
     }
 
     private void createComponents() {
@@ -40,9 +48,9 @@ public class MainFrame extends JFrame {
     }
 
     private JPanel createFilePanel() {
-        OpenFilePanel panel = new OpenFilePanel(factory);
+        OpenFilePanel panel = new OpenFilePanel(this, factory);
         panel.setBackground(new Color(0, 0, 0, 0));
-        opeFilePanel = panel;
+        openFilePanel = panel;
         return panel;
     }
 
