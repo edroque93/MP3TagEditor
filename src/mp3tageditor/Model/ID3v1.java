@@ -1,6 +1,6 @@
 package mp3tageditor.Model;
 
-public class ID3 {
+public class ID3v1 {
 
     public static final int ID3_SIZE = 128;
     public static final int ID3_SIGNATURE_SIZE = 3;
@@ -10,7 +10,6 @@ public class ID3 {
     public static final int ID3_YEAR_SIZE = 4;
     public static final int ID3_COMMENT_SIZE = 30;
     public static final int ID3_GENRE_SIZE = 1;
-    
 
     private ByteHolder signature;
     private ByteHolder title, artist, album;
@@ -18,10 +17,10 @@ public class ID3 {
     private ByteHolder comment;
     private ByteHolder genre;
 
-    public ID3() {
+    public ID3v1() {
     }
 
-    public ID3(ByteHolder signature, ByteHolder title, ByteHolder artist, ByteHolder album, ByteHolder year, ByteHolder comment, ByteHolder genre) {
+    public ID3v1(ByteHolder signature, ByteHolder title, ByteHolder artist, ByteHolder album, ByteHolder year, ByteHolder comment, ByteHolder genre) {
         this.signature = signature;
         this.title = title;
         this.artist = artist;
@@ -30,7 +29,7 @@ public class ID3 {
         this.comment = comment;
         this.genre = genre;
     }
-   
+
     public byte[] getAsArray() {
         byte[] vector = new byte[ID3_SIZE];
         System.arraycopy(signature.getVector(), 0, vector, 0, 3);
@@ -40,7 +39,7 @@ public class ID3 {
         System.arraycopy(year.getVector(), 0, vector, 93, 4);
         System.arraycopy(comment.getVector(), 0, vector, 97, 30);
         System.arraycopy(genre.getVector(), 0, vector, 127, 1);
-        
+
         return vector;
     }
 

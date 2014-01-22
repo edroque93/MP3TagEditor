@@ -15,6 +15,11 @@ public class ByteHolder {
         pointer = 0;
         vector = new byte[size];
     }
+    
+    public ByteHolder(byte singleByte) {
+        this(1);
+        sequentialWrite(singleByte);
+    }
 
     public ByteHolder(byte[] vector) {
         this.vector = vector;
