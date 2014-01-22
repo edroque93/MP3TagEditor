@@ -12,9 +12,9 @@ import mp3tageditor.UI.Swing.TagEditorPanel;
 
 public class OpenCommand extends Command {
 
-    private OpenFilePanel openFilePanel;
-    private TagEditorPanel tagEditorPanel;
-    private JFrame frame;
+    private final OpenFilePanel openFilePanel;
+    private final TagEditorPanel tagEditorPanel;
+    private final JFrame frame;
 
     public OpenCommand(JFrame frame, OpenFilePanel openFilePanel, TagEditorPanel tagEditorPanel) {
         this.frame = frame;
@@ -34,7 +34,7 @@ public class OpenCommand extends Command {
             openFilePanel.setLabelText("Analyzing mp3 file...");
 
             TagAnalyzer tagAnalyzer = new TagAnalyzer(tagEditorPanel, file.getAbsolutePath());
-            tagAnalyzer.scan();
+            tagAnalyzer.scanID3v2();
             openFilePanel.setLabelForegroundColor(new Color(0x33, 0x33, 0x33));
             openFilePanel.setLabelText("Done!");
 

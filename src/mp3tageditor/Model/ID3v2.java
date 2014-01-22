@@ -1,47 +1,19 @@
 package mp3tageditor.Model;
 
-public class ID3v1 implements ID3 {
+public class ID3v2 implements ID3 {
 
-    public static final int ID3v1_SIZE = 128;
-    public static final int ID3v1_SIGNATURE_SIZE = 3;
-    public static final int ID3v1_TITLE_SIZE = 30;
-    public static final int ID3v1_ARTIST_SIZE = 30;
-    public static final int ID3v1_ALBUM_SIZE = 30;
-    public static final int ID3v1_YEAR_SIZE = 4;
-    public static final int ID3v1_COMMENT_SIZE = 30;
-    public static final int ID3v1_GENRE_SIZE = 1;
+    public static final String ID3v2_TITLE_ID = "TIT2";
+    public static final String ID3v2_ARTIST_ID = "TPE1";
+    public static final String ID3v2_ALBUM_ID = "TALB";
+    public static final String ID3v2_YEAR_ID = "TYER";
+    public static final String ID3v2_COMMENT_ID = "COMM";
+    public static final String ID3v2_GENRE_ID = "TCON";
 
     private ByteHolder signature;
     private ByteHolder title, artist, album;
     private ByteHolder year;
     private ByteHolder comment;
     private ByteHolder genre;
-
-    public ID3v1() {
-    }
-
-    public ID3v1(ByteHolder signature, ByteHolder title, ByteHolder artist, ByteHolder album, ByteHolder year, ByteHolder comment, ByteHolder genre) {
-        this.signature = signature;
-        this.title = title;
-        this.artist = artist;
-        this.album = album;
-        this.year = year;
-        this.comment = comment;
-        this.genre = genre;
-    }
-
-    public byte[] getAsArray() {
-        byte[] vector = new byte[ID3v1_SIZE];
-        System.arraycopy(signature.getVector(), 0, vector, 0, 3);
-        System.arraycopy(title.getVector(), 0, vector, 3, 30);
-        System.arraycopy(artist.getVector(), 0, vector, 33, 30);
-        System.arraycopy(album.getVector(), 0, vector, 63, 30);
-        System.arraycopy(year.getVector(), 0, vector, 93, 4);
-        System.arraycopy(comment.getVector(), 0, vector, 97, 30);
-        System.arraycopy(genre.getVector(), 0, vector, 127, 1);
-
-        return vector;
-    }
 
     @Override
     public ByteHolder getSignature() {

@@ -11,14 +11,15 @@ public class SaveFile {
     }
 
     private static boolean tagInFile(String path) {
-        ID3v1 id3 = FileLoader.load(path);
+        FileLoaderID3v1 loader = new FileLoaderID3v1();
+        ID3v1 id3 = loader.load(path);
         return id3.getSignature().toString().contains("TAG");
     }
 
     private static void writeID3ToFile(String path, ID3v1 id3) {
         try {
             RandomAccessFile handle = new RandomAccessFile(path, "rw");
-            handle.seek(handle.length() - ID3v1.ID3_SIZE);
+            handle.seek(handle.length() - ID3v1.ID3v1_SIZE);
             handle.write(id3.getAsArray());
             handle.close();
         } catch (Exception ex) {
