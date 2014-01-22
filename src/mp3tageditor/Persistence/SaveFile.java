@@ -4,10 +4,10 @@ import java.io.RandomAccessFile;
 import mp3tageditor.Model.ID3;
 
 public class SaveFile {
-    
+
     public static void save(String path, ID3 id3) {
-        if (!tagInPath(path)) return;
-        writeID3ToFile(path, id3);
+        if (tagInPath(path))
+            writeID3ToFile(path, id3);
     }
 
     private static boolean tagInPath(String path) {
@@ -23,8 +23,7 @@ public class SaveFile {
         } catch (Exception ex) {
             ex.printStackTrace(System.err);
         }
-        
-        
+
     }
 
 }
