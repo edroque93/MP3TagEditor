@@ -16,7 +16,6 @@ public class OpenFilePanel extends JPanel {
     private JFrame frame;
     private JTextField fileField;
     private JLabel infoLabel;
-    private JPanel buggyPanel;
 
     public OpenFilePanel(JFrame frame, ActionListenerFactory factory) {
         super(new BorderLayout());
@@ -25,6 +24,9 @@ public class OpenFilePanel extends JPanel {
         createComponents();
     }
 
+    public String getFilePath() {
+        return fileField.getText();
+    }
     public void setLabelText(String text) {
         infoLabel.setText(text);
         frame.repaint();
@@ -76,7 +78,6 @@ public class OpenFilePanel extends JPanel {
         JPanel panel = new JPanel();
         panel.setBackground(new Color(0, 0, 0, 0));
         panel.add(createLabel("Give me a file!"));
-        buggyPanel = panel;
         return panel;
     }
 

@@ -6,6 +6,7 @@ import mp3tageditor.Control.AboutCommand;
 import mp3tageditor.Control.ActionListenerFactory;
 import mp3tageditor.Control.CommandDictionary;
 import mp3tageditor.Control.OpenCommand;
+import mp3tageditor.Control.WriteCommand;
 import mp3tageditor.UI.Swing.MainFrame;
 
 /**
@@ -44,6 +45,9 @@ public class MP3TagEditor {
                 frame,
                 frame.getOpenFilePanel(),
                 frame.getTagEditorPanel()));
+        commandDictionary.put("Write file", new WriteCommand(
+                frame.getTagEditorPanel(),
+                frame.getOpenFilePanel()));
     }
 
 }

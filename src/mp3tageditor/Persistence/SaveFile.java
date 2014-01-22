@@ -20,6 +20,7 @@ public class SaveFile {
             RandomAccessFile handle = new RandomAccessFile(path, "rw");
             handle.seek(handle.length() - ID3.ID3_SIZE);
             handle.write(id3.getAsArray());
+            handle.close();
         } catch (Exception ex) {
             ex.printStackTrace(System.err);
         }

@@ -19,6 +19,7 @@ public class FileLoader {
             RandomAccessFile handle = new RandomAccessFile(path, "r");
             handle.seek(handle.length() - bytes.length);
             handle.readFully(bytes);
+            handle.close();
         } catch (Exception ex) {
             ex.printStackTrace(System.err);
         }

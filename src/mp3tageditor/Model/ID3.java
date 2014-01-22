@@ -3,6 +3,14 @@ package mp3tageditor.Model;
 public class ID3 {
 
     public static final int ID3_SIZE = 128;
+    public static final int ID3_SIGNATURE_SIZE = 3;
+    public static final int ID3_TITLE_SIZE = 30;
+    public static final int ID3_ARTIST_SIZE = 30;
+    public static final int ID3_ALBUM_SIZE = 30;
+    public static final int ID3_YEAR_SIZE = 4;
+    public static final int ID3_COMMENT_SIZE = 30;
+    public static final int ID3_GENRE_SIZE = 1;
+    
 
     private ByteHolder signature;
     private ByteHolder title, artist, album;
@@ -25,7 +33,6 @@ public class ID3 {
    
     public byte[] getAsArray() {
         byte[] vector = new byte[ID3_SIZE];
-        
         System.arraycopy(signature.getVector(), 0, vector, 0, 3);
         System.arraycopy(title.getVector(), 0, vector, 3, 30);
         System.arraycopy(artist.getVector(), 0, vector, 33, 30);

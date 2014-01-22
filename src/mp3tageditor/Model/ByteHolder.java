@@ -5,6 +5,12 @@ public class ByteHolder {
     private byte[] vector;
     private int pointer;
 
+    public ByteHolder(String fromText, int size) {
+        this(size);
+        for (int i = 0; i <= size && i < fromText.length(); i++)
+            sequentialWrite((byte) fromText.charAt(i));
+    }
+
     public ByteHolder(int size) {
         pointer = 0;
         vector = new byte[size];
@@ -30,7 +36,7 @@ public class ByteHolder {
     }
 
     public void sequentialWrite(byte data) {
-        if (pointer + 1 < vector.length)
+        if (pointer < vector.length)
             vector[pointer++] = data;
     }
 
@@ -47,5 +53,5 @@ public class ByteHolder {
     public String toString() {
         return new String(vector).trim();
     }
-    
+
 }
