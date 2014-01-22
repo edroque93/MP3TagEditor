@@ -6,11 +6,11 @@ import mp3tageditor.Model.ID3;
 public class SaveFile {
 
     public static void save(String path, ID3 id3) {
-        if (tagInPath(path))
+        if (tagInFile(path))
             writeID3ToFile(path, id3);
     }
 
-    private static boolean tagInPath(String path) {
+    private static boolean tagInFile(String path) {
         ID3 id3 = FileLoader.load(path);
         return id3.getSignature().toString().contains("TAG");
     }
