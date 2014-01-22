@@ -29,7 +29,7 @@ public class OpenFilePanel extends JPanel {
 
     private JTextField createTextField(String file) {
         JTextField field = new JTextField();
-        field.setPreferredSize(new Dimension(370, 26));
+        field.setPreferredSize(new Dimension(350, 26));
         fileField = field;
         return field;
     }

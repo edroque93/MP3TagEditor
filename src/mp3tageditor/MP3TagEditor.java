@@ -2,6 +2,7 @@ package mp3tageditor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import mp3tageditor.Control.AboutCommand;
 import mp3tageditor.Control.ActionListenerFactory;
 import mp3tageditor.Control.Command;
 import mp3tageditor.Control.CommandDictionary;
@@ -38,6 +39,7 @@ public class MP3TagEditor {
 
     private void createCommands() {
         commandDictionary = new CommandDictionary();
+        commandDictionary.put("About", new AboutCommand(frame));
         commandDictionary.put("Open", new Command() {
             @Override
             public void execute() {
