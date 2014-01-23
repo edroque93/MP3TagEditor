@@ -8,8 +8,8 @@ import mp3tageditor.UI.Swing.TagEditorPanel;
 
 public class TagAnalyzer {
 
-    private TagEditorPanel tagEditorPanel;
-    private String filePath;
+    private final TagEditorPanel tagEditorPanel;
+    private final String filePath;
 
     public TagAnalyzer(TagEditorPanel tagEditorPanel, String filePath) {
         this.tagEditorPanel = tagEditorPanel;

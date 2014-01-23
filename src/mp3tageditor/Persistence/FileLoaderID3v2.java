@@ -62,7 +62,7 @@ public class FileLoaderID3v2 implements FileLoader {
         int pointer = 0;
         int minimum = 5;
 
-        while (pointer - minimum < bytes.length) {
+        while ((pointer + minimum) < bytes.length) {
             if (bytes[pointer] == tag.charAt(0)
                     && bytes[pointer + 1] == tag.charAt(1)
                     && bytes[pointer + 2] == tag.charAt(2)
@@ -84,9 +84,7 @@ public class FileLoaderID3v2 implements FileLoader {
         int base = pointer;
         pointer++;
         size--;
-        
-        // TODO optimizar esto.
-        
+
         if (tag.contains(ID3v2.ID3v2_COMMENT_ID)) {
             pointer += 6;
             size -= 6;
@@ -95,13 +93,8 @@ public class FileLoaderID3v2 implements FileLoader {
                 pointer++;
                 size--;
             }
-            
-            base = pointer-1;
-            for (int i = 0; i < size+6; i++) {
-             byte b = bytes[pointer + 10 + i];
-             System.out.print("CHAR: " + (char) b);
-             System.out.println(" - " + (b & 0xFF));
-             }
+
+            base = pointer - 1;
         }
 
         if (!isUnicode && isDataUnicode(bytes, base + 11)) {
@@ -112,15 +105,14 @@ public class FileLoaderID3v2 implements FileLoader {
             pointer -= 2;
             size += 2;
         }
-           
 
         byte[] result = new byte[size];
 
         for (int i = 0; i < result.length; i++)
             result[i] = bytes[pointer + 10 + i];
 
-        return (!isUnicode) ? new ByteHolder(result, false)
-                : new ByteHolder(result, true);
+        return (isUnicode) ? new ByteHolder(result, true)
+                : new ByteHolder(result, false);
     }
 
     private boolean isDataUnicode(byte[] bytes, int pointer) {
