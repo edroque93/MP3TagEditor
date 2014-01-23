@@ -1,21 +1,36 @@
 package mp3tageditor.Model;
 
+import java.io.UnsupportedEncodingException;
+
 public class ByteHolder {
 
     private byte[] vector;
     private int pointer;
+    private boolean isUnicode;
 
-    public ByteHolder(String fromText, int size) {
+    public ByteHolder(String fromText, int size, boolean isUnicode) {
         this(size);
-        for (int i = 0; i <= size && i < fromText.length(); i++)
-            sequentialWrite((byte) fromText.charAt(i));
+        this.isUnicode = isUnicode;
+
+        if (!isUnicode)
+            for (int i = 0; i <= size && i < fromText.length(); i++)
+                sequentialWrite((byte) fromText.charAt(i));
+        else
+            for (int i = 0; i <= size && i < fromText.length(); i++) {
+                int unicode = fromText.charAt(i);
+
+                sequentialWrite((byte) unicode);
+                sequentialWrite((byte) (unicode >> 8));
+            }
+
     }
 
     public ByteHolder(int size) {
         pointer = 0;
         vector = new byte[size];
+        isUnicode = false;
     }
-    
+
     public ByteHolder(byte singleByte) {
         this(1);
         sequentialWrite(singleByte);
@@ -23,6 +38,20 @@ public class ByteHolder {
 
     public ByteHolder(byte[] vector) {
         this.vector = vector;
+        this.isUnicode = false;
+    }
+    
+    public ByteHolder(byte[] vector, boolean isUnicode) {
+        this.vector = vector;
+        this.isUnicode = isUnicode;
+    }
+
+    public boolean isUnicode() {
+        return isUnicode;
+    }
+
+    public void setUnicode(boolean isUnicode) {
+        this.isUnicode = isUnicode;
     }
 
     public int getSize() {
@@ -56,6 +85,13 @@ public class ByteHolder {
 
     @Override
     public String toString() {
+        try {
+            if (isUnicode)
+                return new String(vector, "UTF-16LE").trim();
+        } catch (UnsupportedEncodingException ex) {
+            ex.printStackTrace(System.err);
+        }
+
         return new String(vector).trim();
     }
 

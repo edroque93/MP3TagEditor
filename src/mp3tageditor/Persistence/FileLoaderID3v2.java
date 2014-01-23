@@ -45,19 +45,20 @@ public class FileLoaderID3v2 implements FileLoader {
 
     private ID3v2 getID3FromBytes(byte[] bytes) {
         ID3v2 id3v2 = new ID3v2();
+        Boolean isUnicode = false;
 
-        id3v2.setSignature(new ByteHolder("TAG", 3));
-        id3v2.setTitle(new ByteHolder(searchFrame(bytes, ID3v2.ID3v2_TITLE_ID)));
-        id3v2.setArtist(new ByteHolder(searchFrame(bytes, ID3v2.ID3v2_ARTIST_ID)));
-        id3v2.setAlbum(new ByteHolder(searchFrame(bytes, ID3v2.ID3v2_ALBUM_ID)));
-        id3v2.setYear(new ByteHolder(searchFrame(bytes, ID3v2.ID3v2_YEAR_ID)));
-        id3v2.setComment(new ByteHolder(searchFrame(bytes, ID3v2.ID3v2_COMMENT_ID)));
-        id3v2.setGenre(new ByteHolder(searchFrame(bytes, ID3v2.ID3v2_GENRE_ID)));
+        id3v2.setSignature(new ByteHolder("TAG", 3, false));
+        id3v2.setTitle(searchFrame(bytes, ID3v2.ID3v2_TITLE_ID));
+        id3v2.setArtist(searchFrame(bytes, ID3v2.ID3v2_ARTIST_ID));
+        id3v2.setAlbum(searchFrame(bytes, ID3v2.ID3v2_ALBUM_ID));
+        id3v2.setYear(searchFrame(bytes, ID3v2.ID3v2_YEAR_ID));
+        id3v2.setComment(searchFrame(bytes, ID3v2.ID3v2_COMMENT_ID));
+        id3v2.setGenre(searchFrame(bytes, ID3v2.ID3v2_GENRE_ID));
 
         return id3v2;
     }
 
-    private byte[] searchFrame(byte[] bytes, String tag) {
+    private ByteHolder searchFrame(byte[] bytes, String tag) {
         int pointer = 0;
         int minimum = 5;
 
@@ -70,34 +71,33 @@ public class FileLoaderID3v2 implements FileLoader {
             pointer++;
         }
 
-        return new byte[0];
+        return new ByteHolder(0);
     }
 
-    private byte[] getDataFromTag(byte[] bytes, int pointer) {
+    private ByteHolder getDataFromTag(byte[] bytes, int pointer) {
         int size = bytes[pointer + 7];
         size += bytes[pointer + 6] << 8;
         size += bytes[pointer + 5] << 16;
         size += bytes[pointer + 4] << 24;
 
-        System.out.println("POINTER+7 == " + bytes[pointer + 7]);
-        System.out.println("POINTER+6 == " + bytes[pointer + 6]);
-        System.out.println("POINTER+5 == " + bytes[pointer + 5]);
-        System.out.println("POINTER+4 == " + bytes[pointer + 4]);
+        int base = pointer;
+        pointer++;
+        size--;
+
+        if (isDataUnicode(bytes, base)) {
+            pointer += 2;
+            size -= 2;
+        }
 
         byte[] result = new byte[size];
 
-        if (!isDataUnicode(bytes, pointer))
-            for (int i = 0; i < result.length; i++) {
-                result[i] = bytes[pointer + 10 + i];
-                System.out.print(((char) bytes[pointer + 10 + i]) + " - ");
-                System.out.println(bytes[pointer + 10 + i]);
-            }
-        else {
-            
-        }
+        for (int i = 0; i < result.length; i++)
+            result[i] = bytes[pointer + 10 + i];
 
-        System.out.println("END_________________________");
-        return result;
+        if (!isDataUnicode(bytes, base))
+            return new ByteHolder(result, false);
+        else
+            return new ByteHolder(result, true);
     }
 
     private boolean isDataUnicode(byte[] bytes, int pointer) {
