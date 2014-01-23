@@ -11,7 +11,7 @@ import mp3tageditor.Control.ActionListenerFactory;
 
 public class MainFrame extends JFrame {
 
-    private ActionListenerFactory factory;
+    private final ActionListenerFactory factory;
     private OpenFilePanel openFilePanel;
     private TagEditorPanel tagEditorPanel;
     private MiscellanyPanel miscellanyPanel;

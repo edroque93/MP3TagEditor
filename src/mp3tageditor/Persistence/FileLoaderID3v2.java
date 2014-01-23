@@ -67,14 +67,15 @@ public class FileLoaderID3v2 implements FileLoader {
                     && bytes[pointer + 1] == tag.charAt(1)
                     && bytes[pointer + 2] == tag.charAt(2)
                     && bytes[pointer + 3] == tag.charAt(3))
-                return getDataFromTag(bytes, pointer);;
+                return getDataFromTag(bytes, pointer, tag);
             pointer++;
         }
 
         return new ByteHolder(0);
     }
 
-    private ByteHolder getDataFromTag(byte[] bytes, int pointer) {
+    private ByteHolder getDataFromTag(byte[] bytes, int pointer, String tag) {
+        boolean isUnicode = false;
         int size = bytes[pointer + 7];
         size += bytes[pointer + 6] << 8;
         size += bytes[pointer + 5] << 16;
@@ -83,26 +84,48 @@ public class FileLoaderID3v2 implements FileLoader {
         int base = pointer;
         pointer++;
         size--;
+        
+        // TODO optimizar esto.
+        
+        if (tag.contains(ID3v2.ID3v2_COMMENT_ID)) {
+            pointer += 6;
+            size -= 6;
 
-        if (isDataUnicode(bytes, base)) {
+            while (bytes[pointer + 10] == 0) {
+                pointer++;
+                size--;
+            }
+            
+            base = pointer-1;
+            for (int i = 0; i < size+6; i++) {
+             byte b = bytes[pointer + 10 + i];
+             System.out.print("CHAR: " + (char) b);
+             System.out.println(" - " + (b & 0xFF));
+             }
+        }
+
+        if (!isUnicode && isDataUnicode(bytes, base + 11)) {
+            isUnicode = true;
             pointer += 2;
             size -= 2;
+        } else {
+            pointer -= 2;
+            size += 2;
         }
+           
 
         byte[] result = new byte[size];
 
         for (int i = 0; i < result.length; i++)
             result[i] = bytes[pointer + 10 + i];
 
-        if (!isDataUnicode(bytes, base))
-            return new ByteHolder(result, false);
-        else
-            return new ByteHolder(result, true);
+        return (!isUnicode) ? new ByteHolder(result, false)
+                : new ByteHolder(result, true);
     }
 
     private boolean isDataUnicode(byte[] bytes, int pointer) {
-        return (bytes[pointer + 11] & 0xFF) >= 0xFE
-                && (bytes[pointer + 12] & 0xFF) >= 0xFE;
+        return (bytes[pointer] & 0xFF) >= 0xFE
+                && (bytes[pointer + 1] & 0xFF) >= 0xFE;
     }
 
 }
