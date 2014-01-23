@@ -95,9 +95,14 @@ public class FileLoaderID3v2 implements FileLoader {
             }
 
             base = pointer - 1;
-        }
+        } else if (tag.contains(ID3v2.ID3v2_GENRE_ID))
+            for (int i = pointer; i < bytes.length; i++) {
+                byte b = bytes[i];
+                System.out.print((char)b + " - ");
+                System.out.println(b & 0xFF);
+            }
 
-        if (!isUnicode && isDataUnicode(bytes, base + 11)) {
+        if (isDataUnicode(bytes, base + 11)) {
             isUnicode = true;
             pointer += 2;
             size -= 2;
